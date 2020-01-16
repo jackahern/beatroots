@@ -35,6 +35,18 @@ function getArtists() {
   return $artists;
 }
 
+function getArtistbyId($artist_id) {
+  global $conn;
+  $query = "SELECT * FROM artists WHERE artist_id = :artist_id";
+  $stmt = $conn->prepare($query);
+  $stmt->execute([
+      ':artist_id' => $artist_id
+  ]);
+  $artist = $stmt->fetch(PDO::FETCH_ASSOC);
+
+  return $artist;
+}
+
 function getAlbumByArtist($artist_id) {
   global $conn;
   $query = "SELECT * FROM albums AS al JOIN artists AS ar ON al.album_artist_id = ar.artist_id WHERE album_artist_id = :artist_id";
