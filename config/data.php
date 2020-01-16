@@ -35,7 +35,7 @@ function getArtists() {
   return $artists;
 }
 
-function getArtistbyId($artist_id) {
+function getArtistById($artist_id) {
   global $conn;
   $query = "SELECT * FROM artists WHERE artist_id = :artist_id";
   $stmt = $conn->prepare($query);

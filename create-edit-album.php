@@ -1,5 +1,6 @@
 <?php
 session_start();
+$action = $_POST['action'] ?? NULL;
 $currentFile = 'create-edit-album.php';
 $maxUpload = min(ini_get('post_max_size'), ini_get('upload_max_filesize'));
 $maxUpload = str_replace('M', '', $maxUpload);
@@ -7,12 +8,21 @@ $maxUploadMsg = $maxUpload . 'MB';
 $maxUpload = $maxUpload * 2048;
 $uploadOk = 1;
 $target_dir = "images/albums";
+include_once('header.php');
 
 // find a way to find if the genre is being edited or created, leave isedit here as false for now
-$isEdit = false;
+$isEdit = isset($_GET['album_id']) ? true : false;
+if ($isEdit) {
+  // get artist details for this artist
+  $album = getAlbum($_GET['album_id']);
+  // if card doesn't exist for the supplied card_id, then kick out back to list page and show error
+  if ($album == NULL) {
+    //First create the redirect to use query string until i see it working and then change it to use the errors the same way it does in the form handler
+    siteAddNotification("error", "albums", "The album doesn't exist");
+  }
+}
 $_SESSION['page_title'] = $isEdit ? 'Edit album' : 'Create album';
 $_SESSION['page_description'] = 'Here you can create a new album. For this, you need to know the title of the album, the artist who authored it and the genre the album suits';
-include_once('header.php');
 
 // handle form input here
 if (isset($_POST['album_title']) && isset($_POST['album_artist_id']) && isset($_POST['album_genre_id'])) {
@@ -69,9 +79,6 @@ if (isset($_POST['album_title']) && isset($_POST['album_artist_id']) && isset($_
       // If the statement was executed into the database correctly, set a destination variable for the target file with the id
       // and move the file to the images directory
       $destination = $target_dir . "/" . $id . "." . $imageFileType;
-      //echo "<pre>";
-      //var_dump($destination);
-      //var_dump($_FILES);
       if (move_uploaded_file($_FILES["album_cover"]["tmp_name"], $destination)) {
         $conn->commit();
         chmod($destination, 0755);
@@ -98,9 +105,9 @@ $genres = getGenres();
     <section class="create-edit-album">
       <form action="create-edit-album.php" method="post" enctype="multipart/form-data">
         <label for="albumTitle">Album title:</label>
-        <input type="text" name="album_title" class="form-control" aria-describedby="albumTitleHelp" placeholder="Enter album title...">
+        <input type="text" name="album_title" class="form-control" aria-describedby="albumTitleHelp" placeholder="Enter album title..." value="<?=$isEdit ? $album['album_title'] : ''?>">
         <label>By artist:</label>
-        <input list="artists" name="album_artist_id" placeholder="Search for artist..." class="form-control">
+        <input list="artists" name="album_artist_id" placeholder="Search for artist..." class="form-control" value="<?=$isEdit ? $album['artist_id'] . ' - ' . $album['artist_name'] : ''?>">
         <datalist id="artists">
           <?php
           foreach ($artists as $artist) {
@@ -113,7 +120,18 @@ $genres = getGenres();
         </input>
         <label>Genre:</label>
         <select id="select-genre" name="album_genre_id" class="custom-select my-1 mr-sm-2">
-          <option value="0">Please select...</option>
+          <?php
+          if ($isEdit) {
+              ?>
+            <option value="<?=$album['genre_id'];?>"><?=$album['genre_name']?></option>
+            <?php
+          } else {
+              ?>
+            <option value="0">Please select...</option>
+            <?php
+          }
+          ?>
+
           <?php
           foreach ($genres as $genre) {
             ?>
@@ -122,11 +140,20 @@ $genres = getGenres();
           }
           ?>
         </select>
-        <label for="albumCover">Album cover photo</label>
+        <label for="albumCover"><?=$isEdit ? 'Replace album cover photo' : 'Album cover photo'?></label>
         <div class="custom-file">
           <input type="file" class="custom-file-input" id="customFile" name="album_cover">
           <label class="custom-file-label" for="customFile">Choose file</label>
         </div>
+        <?php
+        // If isEdit is true then show the thumbnail image that is already being used for the card
+        if ($isEdit && file_exists($imgUrl)) {
+          ?>
+            <label for="existingCoverPhoto">Current album cover photo</label>
+            <img class="edit-thumbnail-img" src="<?=$imgUrl . '?nc=' . filemtime($imgUrl)?>">
+          <?php
+        }
+        ?>
         <button type="submit" class="btn btn-primary mt-3">Submit</button>
       </form>
     </section>

@@ -8,6 +8,7 @@ $maxUploadMsg = $maxUpload . 'MB';
 $maxUpload = $maxUpload * 2048;
 $uploadOk = 1;
 $target_dir = "images/artists";
+include_once('header.php');
 
 // handle form input here
 if ($action == 'create-artist' || $action == 'edit-artist') {
@@ -20,10 +21,10 @@ if ($action == 'create-artist' || $action == 'edit-artist') {
       siteAddNotification("error", "artists", "The file is not an image");
     }
     // Check file size - cannot exceed 4MB
-    if ($_FILES["artist_avatar"]["size"] > $maxUpload) {
-      $uploadOk = 0;
-      siteAddNotification("error", "artists", "The file is too large");
-    }
+//    if ($_FILES["artist_avatar"]["size"] > $maxUpload) {
+//      $uploadOk = 0;
+//      siteAddNotification("error", "artists", "The file is too large");
+//    }
     // Allow certain file formats
     if($imageFileType != "png" && $imageFileType != "svg") {
       $uploadOk = 0;
@@ -67,11 +68,31 @@ if ($action == 'create-artist' || $action == 'edit-artist') {
       }
     }
   }
+  else if ($action == 'edit-artist') {
+    // Write an update query to change the card details that has been edited
+    $sql = "UPDATE artists 
+    SET artist_name = :artist_name
+    WHERE artist_id = :artist_id";
+    $stmt = $conn->prepare($sql);
+    $execute = $stmt->execute([
+      ':artist_name' => $_POST['artist_name'],
+      ':artist_id' => $_POST['artist_id']
+    ]);
+    // If the upload has worked, then check the existence of the image and move it to the destination if it has been changed
+    if ($uploadOk) {
+      $destination = $target_dir . "/" . $_POST['artist_id'] . ".png";
+      if (!empty($_FILES['artist_avatar']['tmp_name'])) {
+        move_uploaded_file($_FILES["artist_avatar"]["tmp_name"], $destination);
+        chmod($destination, 0755);
+      }
+      siteAddNotification("success", "artists", "The artist has been updated");
+    }
+  }
 }
 
 $_SESSION['page_title'] = $isEdit ? 'Edit artist' : 'Create artist';
 $_SESSION['page_description'] = 'Here you can create a new artist, all this requires is a name!';
-include_once('header.php');
+
 
 // find a way to find if the genre is being edited or created, leave isedit here as false for now
 $isEdit = isset($_GET['artist_id']) ? true : false;
