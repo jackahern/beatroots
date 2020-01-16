@@ -11,6 +11,7 @@ include_once('header.php');
         <thead>
         <tr>
           <th scope="col">#</th>
+          <th scope="col">Album cover</th>
           <th scope="col">Title</th>
           <th scope="col">Artist</th>
           <th scope="col">Genre</th>
@@ -22,9 +23,24 @@ include_once('header.php');
         $albums = getAlbums();
         if (!empty($albums)) {
           foreach ($albums as $album) {
+            $imgUrl = 'images/albums/' . $album['album_id'].'.png';
             ?>
             <tr>
               <td><?= $album['album_id'] ?></td>
+              <td>
+                <?php
+                    if (file_exists($imgUrl)) {
+                      ?>
+                        <img class="thumbnail" src="<?=$imgUrl . '?nc=' . filemtime($imgUrl)?>" alt="<?=$album['album_title']?>">
+                      <?php
+                    }
+                    else {
+                      ?>
+                        <p>There is no cover for this album</p>
+                      <?php
+                    }
+                    ?>
+              </td>
               <td><?= $album['album_title'] ?></td>
               <td><?= $album['artist_name'] ?></td>
               <td><?= $album['genre_name'] ?></td>

@@ -11,6 +11,7 @@ include_once('header.php');
         <thead>
         <tr>
           <th scope="col">#</th>
+          <th scope="col">Avatar</th>
           <th scope="col">Name</th>
           <th class="action-col-width" scope="col">Action</th>
         </tr>
@@ -20,9 +21,24 @@ include_once('header.php');
         $artists = getArtists();
         if (!empty($artists)) {
           foreach ($artists as $artist) {
+            $imgUrl = 'images/artists/' . $artist['artist_id'].'.png';
             ?>
             <tr>
               <td><?= $artist['artist_id'] ?></td>
+              <td>
+                <?php
+                  if (file_exists($imgUrl)) {
+                    ?>
+                      <img class="thumbnail" src="<?=$imgUrl . '?nc=' . filemtime($imgUrl)?>" alt="<?=$artist['artist_name']?>">
+                    <?php
+                  }
+                  else {
+                    ?>
+                      <p>There is no avatar for this artist</p>
+                    <?php
+                  }
+                ?>
+                </td>
               <td><?= $artist['artist_name'] ?></td>
               <!-- Insert delete and update functionality and then link it correctly in this last column -->
               <td class="action-col action-col-width">

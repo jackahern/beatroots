@@ -74,6 +74,7 @@ if (isset($_POST['album_title']) && isset($_POST['album_artist_id']) && isset($_
       //var_dump($_FILES);
       if (move_uploaded_file($_FILES["album_cover"]["tmp_name"], $destination)) {
         $conn->commit();
+        chmod($destination, 0755);
         siteAddNotification("success", "albums", "Album titled " . $_POST['album_title'] . " added");
         unset($_POST['album_title']);
         unset($_POST['album_artist_id']);
