@@ -1,0 +1,139 @@
+body {
+    margin-left: 215px;
+    background-image: url("music-player-bg.jpg");
+    background-attachment: fixed;
+    color: whitesmoke;
+}
+
+/* Fixed sidenav, full height */
+#sidenav {
+    height: 100%;
+    width: 200px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+
+/* Style the sidenav links and the dropdown button */
+#sidenav a, .dropdown-btn {
+padding: 6px 8px 6px 16px;
+text-decoration: none;
+font-size: 20px;
+color: #818181;
+display: block;
+border: none;
+background: none;
+width:100%;
+text-align: left;
+cursor: pointer;
+outline: none;
+}
+
+.sub-items a {
+    font-size: 16px !important;
+}
+
+/* On mouse-over */
+#sidenav a:hover, .dropdown-btn:hover {
+color: #f1f1f1;
+}
+
+/* Main content */
+.main {
+margin-left: 200px; /* Same as the width of the sidenav */
+font-size: 20px; /* Increased text to enable scrolling */
+padding: 0px 10px;
+}
+
+/* Add an active class to the active dropdown button */
+.active {
+background-color: dodgerblue;
+color: whitesmoke !important;
+}
+
+/* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
+.dropdown-container {
+display: none;
+background-color: #262626;
+padding-left: 8px;
+}
+
+/* Optional: Style the caret down icon */
+.fa-caret-down {
+float: right;
+padding-right: 8px;
+}
+
+.list {
+    list-style-type: none;
+}
+
+
+
+/* Fixed sidenav, full height */
+#album-list {
+    padding-top: 20px;
+}
+
+/* Style the sidenav links and the dropdown button */
+#album-list a, .dropdown-btn {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #818181;
+    display: block;
+    border: none;
+    background: none;
+    width:100%;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+}
+
+/* On mouse-over */
+#album-list a:hover, .dropdown-btn:hover {
+    color: #f1f1f1;
+}
+
+#album-list, .dropdown-container {
+    padding-left: 8px;
+    background-color: unset;
+}
+
+.manage-table {
+    width: 98%;
+    padding: 10px;
+    background-color: #C5C6C7;
+    border-radius: 10px;
+    box-shadow:
+            0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+            0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+            0 12.5px 10px rgba(0, 0, 0, 0.06),
+            0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+            0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+            0 100px 80px rgba(0, 0, 0, 0.12);
+}
+
+.create-edit-genre {
+    width: 33%;
+}
+
+.genre-table-width {
+    width: 50%;
+}
+
+.action-col-width {
+    width: 135px;
+    text-align: center;
+}
+
+.add-new-shadow {
+    -webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+    -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+    box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+
