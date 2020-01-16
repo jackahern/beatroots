@@ -96,6 +96,8 @@ if (isset($_POST['album_title']) && isset($_POST['album_artist_id']) && isset($_
 
 $artists = getArtists();
 $genres = getGenres();
+$imgUrl = 'images/albums/' . $album['artist_id']. '.png';
+
 ?>
   <main>
     <?php

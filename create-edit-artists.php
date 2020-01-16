@@ -107,7 +107,7 @@ if ($isEdit) {
 }
 
 
-$imgUrl = 'images/artists/' . $artist['artist_id'].'.png';
+$imgUrl = 'images/artists/' . $artist['artist_id']. '.png';
 ?>
   <main>
     <?php
