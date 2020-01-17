@@ -75,6 +75,7 @@ include_once('config/data.php');
       <a href="artists.php?browse-more">Browse more artists</a>
     </div>
   </div>
+  <a href="songs.php">Songs</a>
   <a href="#contact">Search</a>
   <a href="#contact">Contact</a>
 </nav>

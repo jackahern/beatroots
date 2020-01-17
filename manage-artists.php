@@ -47,7 +47,7 @@ include_once('header.php');
                 <form class="d-inline" action="create-edit-artists.php" method="post">
                   <input class="btn btn-danger unset-width" type="submit" value="Delete"
                          onclick="return confirm('Are you sure you want to delete this artist (<?= $artist['artist_name'] ?>) ?')"/>
-                  <input type="hidden" value="delete-card" name="action"/>
+                  <input type="hidden" value="delete-artist" name="action"/>
                   <input type="hidden" value="<?= $artist['artist_id'] ?>" name="artist_id"/>
                 </form>
               </td>

@@ -86,6 +86,49 @@ function getAlbum($album_id) {
 
   return $album;
 }
+
+/**
+ * Get all song data with no joins to other tables
+ */
+function getSongsQuickly() {
+    global $conn;
+    $query = "SELECT * FROM songs WHERE 1=1";
+    $stmt = $conn->prepare($query);
+    $stmt->execute();
+    $songs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    return $songs;
+}
+
+function getSongsWithJoinData() {
+    global $conn;
+    $query = "SELECT * FROM songs AS s
+              JOIN artists AS ar ON s.song_artist_id = ar.artist_id
+              JOIN genres AS g ON s.song_genre_id = g.genre_id
+              JOIN albums AS al ON s.song_album_id = al.album_id
+              WHERE 1=1";
+    $stmt = $conn->prepare($query);
+    $stmt->execute();
+    $songs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    return $songs;
+}
+
+function getSong($song_id) {
+    global $conn;
+    $query = "SELECT * FROM songs AS s
+              JOIN artists AS ar ON s.song_artist_id = ar.artist_id
+              JOIN genres AS g ON s.song_genre_id = g.genre_id
+              JOIN albums AS al ON s.song_album_id = al.album_id
+              WHERE s.song_id = :song_id";
+    $stmt = $conn->prepare($query);
+    $stmt->execute([
+        ':song_id' => $song_id
+    ]);
+    $song = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    return $song;
+}
 // Build up an array for all the songs, with key value pairs for 'title', 'genre', 'album' and 'artist'
 
 function generateRandomString() {

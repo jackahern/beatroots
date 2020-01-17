@@ -51,7 +51,7 @@ include_once('header.php');
                 <form class="d-inline" action="create-edit-album.php" method="post">
                   <input class="btn btn-danger unset-width" type="submit" value="Delete"
                          onclick="return confirm('Are you sure you want to delete this genre (<?= $album['album_title'] ?>) ?')"/>
-                  <input type="hidden" value="delete-card" name="action"/>
+                  <input type="hidden" value="delete-album" name="action"/>
                   <input type="hidden" value="<?= $album['album_id'] ?>" name="album_id"/>
                 </form>
               </td>

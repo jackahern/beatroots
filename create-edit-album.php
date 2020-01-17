@@ -156,7 +156,21 @@ $imgUrl = 'images/albums/' . $album['artist_id']. '.png';
           <?php
         }
         ?>
-        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+        <div class="form-group">
+          <?php
+            if ($isEdit) {
+              ?>
+              <input type="hidden" value="<?=$album['album_id']?>" name="album_id"/>
+              <input type="hidden" value="edit-album" name="action"/>
+              <?php
+            }
+            else {
+              ?>
+              <input type="hidden" value="create-album" name="action"/>
+              <?php
+            }
+          ?>
+        <button type="submit" class="btn btn-primary mt-3" name="create-edit-album-submit">Submit</button>
       </form>
     </section>
   </main>
