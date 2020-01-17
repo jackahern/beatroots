@@ -29,8 +29,12 @@ if ($action == 'create-song' || $action == 'edit-song') {
   $exploded_artist_val = explode(" ", $_POST['song_artist_id']);
   $artist_id = $exploded_artist_val[0];
 
-  $exploded_album_val = explode(" ", $_POST['song_album_id']);
-  $album_id = $exploded_album_val[0];
+  if (!empty($_POST['song_album_id'])) {
+    $exploded_album_val = explode(" ", $_POST['song_album_id']);
+    $album_id = $exploded_album_val[0];
+  } else {
+    $album_id = NULL;
+  }
   // Validate the image upload
   if (isset($_FILES['song']) && strlen(trim($_FILES['song']['tmp_name']))) {
     $target_file = $target_dir . basename($_FILES["song"]["name"]);
@@ -74,7 +78,7 @@ if ($action == 'create-song' || $action == 'edit-song') {
         ':song_title' => $_POST['song_title'],
         ':song_artist_id' => $artist_id,
         ':song_album_id' => $album_id,
-        ':song_genre_id' => $_POST['song_genre_id'],
+        ':song_genre_id' => $_POST['song_genre_id']
       ]);
       $id = $conn->lastInsertId();
       if ($execute) {
@@ -133,8 +137,8 @@ $songUrl = 'songs/' . $song['song_id']. '.mp3';
     // Conditions to check whether any error/success messages are present in the session, if there are then print them out on the screen
     outputNotifications("songs");
     ?>
-    <section class="create-edit-album">
-      <form action="create-edit-album.php" method="post" enctype="multipart/form-data">
+    <section class="create-edit-song">
+      <form action="create-edit-song.php" method="post" enctype="multipart/form-data">
         <label for="songTitle">Song title:</label>
         <input type="text" name="song_title" class="form-control" aria-describedby="songTitleHelp" placeholder="Enter song title..." value="<?=$isEdit ? $song['song_title'] : ''?>">
         <label>By artist:</label>
@@ -149,8 +153,9 @@ $songUrl = 'songs/' . $song['song_id']. '.mp3';
           ?>
         </datalist>
         </input>
-        <input list="artists" name="song_album_id" placeholder="Search for album..." class="form-control" value="<?=$isEdit ? $song['album_id'] . ' - ' . $song['album_title'] : ''?>">
-        <datalist id="artists">
+        <label>In album (can be left blank if the song is not in an album):</label>
+        <input list="albums" name="song_album_id" placeholder="Search for album..." class="form-control" value="<?=$isEdit ? $song['album_id'] . ' - ' . $song['album_title'] : ''?>">
+        <datalist id="albums">
         <?php
           foreach ($albums as $album) {
             ?>
@@ -161,7 +166,7 @@ $songUrl = 'songs/' . $song['song_id']. '.mp3';
         </datalist>
         </input>
         <label>Genre:</label>
-        <select id="select-genre" name="album_genre_id" class="custom-select my-1 mr-sm-2">
+        <select id="select-genre" name="song_genre_id" class="custom-select my-1 mr-sm-2">
           <?php
           if ($isEdit) {
             ?>

@@ -19,8 +19,8 @@ include_once('header.php');
         <div class="card">
           <img class="card-img-top" src="images/<?=!is_null($song['album_id']) ? 'albums/' . $song['album_id'] : 'artists/' . $song['artist_id']?>.png" alt="Card image">
           <div class="card-body">
-            <h4 class="card-title"><?=$song['song_title']?>></h4>
-            <p class="card-text"><?=$song['artist_name']?>></p>
+            <h4 class="card-title"><?=$song['song_title']?></h4>
+            <p class="card-text"><?=$song['artist_name']?></p>
             <audio controls>
               <source src="songs/<?=$song['song_id']?>.mp3" type="audio/mpeg">
             </audio>

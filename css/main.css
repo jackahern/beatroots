@@ -145,3 +145,11 @@ padding-right: 8px;
     width: 30%;
 }
 
+.card {
+    width: 18%;
+}
+.card-title, .card-text {
+    color: black;
+    text-align: center;
+}
+

@@ -129,6 +129,20 @@ function getSong($song_id) {
 
     return $song;
 }
+
+function getSongsInAlbum($album_id) {
+    global $conn;
+    $query = "SELECT * FROM songs AS s
+              JOIN albums AS al ON s.song_album_id = al.album_id
+              WHERE al.album_id = :album_id";
+    $stmt = $conn->prepare($query);
+    $stmt->execute([
+        ':album_id' => $album_id
+    ]);
+    $songs = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    return $songs;
+}
 // Build up an array for all the songs, with key value pairs for 'title', 'genre', 'album' and 'artist'
 
 function generateRandomString() {
