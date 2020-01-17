@@ -106,12 +106,44 @@ function getSongsWithJoinData() {
               JOIN artists AS ar ON s.song_artist_id = ar.artist_id
               JOIN genres AS g ON s.song_genre_id = g.genre_id
               JOIN albums AS al ON s.song_album_id = al.album_id
-              WHERE 1=1";
+              WHERE s.song_album_id IS NOT NULL";
     $stmt = $conn->prepare($query);
     $stmt->execute();
     $songs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    $query = "SELECT * FROM songs AS s
+            JOIN artists AS ar ON s.song_artist_id = ar.artist_id
+            JOIN genres AS g ON s.song_genre_id = g.genre_id
+            WHERE s.song_album_id IS NULL";
+    $stmt = $conn->prepare($query);
+    $stmt->execute();
+    $singles = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $songs = array_merge($singles,$songs);
+
     return $songs;
+}
+
+function getSongsAsSingles($artist_id = FALSE) {
+  global $conn;
+  $query = "SELECT * FROM songs AS s
+            JOIN artists AS ar ON s.song_artist_id = ar.artist_id
+            JOIN genres AS g ON s.song_genre_id = g.genre_id
+            WHERE s.song_album_id IS NULL";
+  if ($artist_id) {
+      $query .= " AND s.song_artist_id = :artist_id";
+  }
+  $stmt = $conn->prepare($query);
+  if ($artist_id) {
+      $stmt->execute([
+          ':artist_id' => $artist_id
+      ]);
+  } else {
+    $stmt->execute();
+  }
+  $songs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+  return $songs;
 }
 
 function getSong($song_id) {
@@ -197,20 +229,5 @@ function outputNotifications($pageType) {
       }
     }
   }
-}
-
-$songs = [];
-for ($x = 0; $x <= 100; $x++) {
-  // Generate 100 songs
-  $songs += [
-    [
-      'title' => generateRandomString(),
-      'id' => $x != 0 ? $x : 1,
-      'genre_id' => mt_rand(3,8),
-      'artist_id' => mt_rand(1,11),
-      'album_id' => mt_rand(1,31)
-    ],
-  ];
-
 }
 

@@ -25,14 +25,39 @@ include_once('header.php');
         </button>
         <div class="dropdown-container" <?= isset($artist_id_url) && $artist_id_url == $artist['artist_id'] ? 'style="display: block;"' : 'style="display: none;"';?>>
           <div class="sub-items">
-            <?php
-            $albums = getAlbumByArtist($artist['artist_id']);
-            foreach ($albums as $album) {
-              ?>
-              <a href="album.php?album=<?=$album['album_id'];?>"><?=$album['album_title'];?></a>
-              <?php
-            }
-            ?>
+              <button class="dropdown-btn <?= isset($artist_id_url) && $artist_id_url == $artist['artist_id'] ? 'active' : '';?>"><i class="fa fa-caret-right"></i> Albums
+              </button>
+              <div class="dropdown-container" <?= isset($artist_id_url) && $artist_id_url == $artist['artist_id'] ? 'style="display: block;"' : 'style="display: none;"';?>>
+                <?php
+                $albums = getAlbumByArtist($artist['artist_id']);
+                foreach ($albums as $album) {
+                  ?>
+                    <a href="album.php?album=<?=$album['album_id'];?>"><?=$album['album_title'];?></a>
+                  <?php
+                }
+                ?>
+              </div>
+              <button class="dropdown-btn <?= isset($artist_id_url) && $artist_id_url == $artist['artist_id'] ? 'active' : '';?>"><i class="fa fa-caret-right"></i>  Singles
+              </button>
+              <div class="dropdown-container" <?= isset($artist_id_url) && $artist_id_url == $artist['artist_id'] ? 'style="display: block;"' : 'style="display: none;"';?>>
+                <?php
+                $singles = getSongsAsSingles($artist['artist_id']);
+                foreach ($singles as $single) {
+                    ?>
+                    <div class="card card-in-artists">
+                      <img class="card-img-top" src="images/artists/<?=$single['artist_id']?>.png" alt="artist avatar">
+                      <div class="card-body">
+                        <h4 class="card-title"><?=$single['song_title']?></h4>
+                        <p class="card-text"><?=$single['artist_name']?></p>
+                        <audio controls class="w-100">
+                          <source src="songs/<?=$single['song_id']?>.mp3" type="audio/mpeg">
+                        </audio>
+                      </div>
+                    </div>
+                <?php
+                }
+                ?>
+              </div>
           </div>
         </div>
         <?php

@@ -18,6 +18,7 @@ include_once('config/data.php');
 <header>
   <h1><?=$_SESSION['page_title'];?></h1>
   <p><?=$_SESSION['page_description']?></p>
+  <div id="screensaver">You are operating in idle mode</div>
 </header>
 <nav id="sidenav">
   <a href="index.php">Home</a>
@@ -32,7 +33,8 @@ include_once('config/data.php');
       $albums = getAlbums();
       $albums_count = count($albums);
       if ($albums_count >= 3) {
-          for ($x = 0; $x < 3; $x++) {
+        shuffle($albums);
+        for ($x = 0; $x < 3; $x++) {
             ?>
               <a href="album.php?album=<?=$albums[$x]['album_id'];?>"><?=$albums[$x]['album_title'];?></a>
             <?php
@@ -58,6 +60,7 @@ include_once('config/data.php');
       $artists = getArtists();
       $artists_count = count($artists);
       if ($artists_count >= 3) {
+        shuffle($artists);
         for ($x = 0; $x < 3; $x++) {
           ?>
             <a id="artist-id-<?=$artists[$x]['artist_id'];?>" href="artists.php?artist=<?=$artists[$x]['artist_id'];?>"><?=$artists[$x]['artist_name'];?></a>

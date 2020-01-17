@@ -44,6 +44,11 @@ include_once('header.php');
             </tr>
             <?php
           }
+        } else {
+            ?>
+            <tr>
+                <td> There are no songs in the system yet</td>
+            <?php
         }
         ?>
         </tbody>

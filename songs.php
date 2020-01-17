@@ -10,18 +10,18 @@ include_once('header.php');
     and subsequently the artist. Probably going to have to setup a function where the genre clicked is passed
     as a parameter to a db call, tables are joined and the ID is found, then retrieve all albums with that genre_id -->
     <a href="manage-songs.php">Manage songs</a>
-    <div id="album-list">
+    <div id="song-list">
       <?php
       $songs = getSongsWithJoinData();
       shuffle($songs);
-      foreach ($songs as $song) {
+      foreach ($songs as $key => $song) {
         ?>
         <div class="card">
           <img class="card-img-top" src="images/<?=!is_null($song['album_id']) ? 'albums/' . $song['album_id'] : 'artists/' . $song['artist_id']?>.png" alt="Card image">
           <div class="card-body">
             <h4 class="card-title"><?=$song['song_title']?></h4>
             <p class="card-text"><?=$song['artist_name']?></p>
-            <audio controls>
+            <audio controls class="w-100">
               <source src="songs/<?=$song['song_id']?>.mp3" type="audio/mpeg">
             </audio>
           </div>
