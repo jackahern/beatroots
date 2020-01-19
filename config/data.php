@@ -185,6 +185,20 @@ function getPlaylists() {
 
     return $playlists;
 }
+
+function getPlaylistById($playlist_id) {
+    global $conn;
+    $query = "SELECT * FROM playlists as ps
+              JOIN playlist_assignment AS pa ON ps.playlist_id = pa.playlist_id
+              WHERE ps.playlist_id = :playlist_id";
+    $stmt = $conn->prepare($query);
+    $stmt->execute([
+        ':playlist_id' => $playlist_id
+    ]);
+    $playlist = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    return $playlist;
+}
 // Build up an array for all the songs, with key value pairs for 'title', 'genre', 'album' and 'artist'
 
 function generateRandomString() {
