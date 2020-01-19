@@ -175,6 +175,16 @@ function getSongsInAlbum($album_id) {
 
     return $songs;
 }
+
+function getPlaylists() {
+    global $conn;
+    $query = "SELECT * FROM playlists WHERE 1=1";
+    $stmt = $conn->prepare($query);
+    $stmt->execute();
+    $playlists = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    return $playlists;
+}
 // Build up an array for all the songs, with key value pairs for 'title', 'genre', 'album' and 'artist'
 
 function generateRandomString() {

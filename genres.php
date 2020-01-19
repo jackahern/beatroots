@@ -9,7 +9,7 @@ include_once('header.php');
         foreach genre that is clicked, send a call to the database to get every album tied to that genre
         and subsequently the artist. Probably going to have to setup a function where the genre clicked is passed
         as a parameter to a db call, tables are joined and the ID is found, then retrieve all albums with that genre_id -->
-        <a href="manage-genres.php">Manage genres</a>
+        <a class="btn btn-primary" href="manage-genres.php">Manage genres</a>
         <div id="album-list">
           <?php
           $genres = getGenres();

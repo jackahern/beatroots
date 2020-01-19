@@ -1,7 +1,7 @@
 $(document).ready(function() {
     var mousetimeout;
     var screensaver_active = false;
-    var idletime = 5;
+    var idletime = 30;
 
     function show_screensaver(){
         $('#screensaver').fadeIn();
@@ -32,7 +32,7 @@ $(document).ready(function() {
 
         mousetimeout = setTimeout(function(){
             show_screensaver();
-        }, 500 * idletime); // 5 secs
+        }, 500 * idletime); // 30 secs
     });
 
     $(document).mousemove(function(){
@@ -40,7 +40,7 @@ $(document).ready(function() {
 
         mousetimeout = setTimeout(function(){
             show_screensaver();
-        }, 1000 * idletime); // 5 secs
+        }, 1000 * idletime); // 30 secs
     });
 
     function screensaver_animation(){

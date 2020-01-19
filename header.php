@@ -18,7 +18,9 @@ include_once('config/data.php');
 <header>
   <h1><?=$_SESSION['page_title'];?></h1>
   <p><?=$_SESSION['page_description']?></p>
-  <div id="screensaver">You are operating in idle mode</div>
+  <div id="screensaver">
+      <p class="centered">You are operating in idle mode <br/><span class="idle-subtext">(Come out of idle mode by clicking anywhere on the screen)</span></p>
+  </div>
 </header>
 <nav id="sidenav">
   <a href="index.php">Home</a>
@@ -79,6 +81,7 @@ include_once('config/data.php');
     </div>
   </div>
   <a href="songs.php">Songs</a>
+  <a href="playlists.php">Playlists</a>
   <a href="#contact">Search</a>
   <a href="#contact">Contact</a>
 </nav>
