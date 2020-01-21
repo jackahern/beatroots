@@ -1,6 +1,4 @@
 <?php
-include_once('connection.php');
-session_start();
 
 function getGenres() {
   global $conn;
@@ -40,7 +38,7 @@ function getArtistById($artist_id) {
   $query = "SELECT * FROM artists WHERE artist_id = :artist_id";
   $stmt = $conn->prepare($query);
   $stmt->execute([
-      ':artist_id' => $artist_id
+    ':artist_id' => $artist_id
   ]);
   $artist = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -91,37 +89,37 @@ function getAlbum($album_id) {
  * Get all song data with no joins to other tables
  */
 function getSongsQuickly() {
-    global $conn;
-    $query = "SELECT * FROM songs WHERE 1=1";
-    $stmt = $conn->prepare($query);
-    $stmt->execute();
-    $songs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  global $conn;
+  $query = "SELECT * FROM songs WHERE 1=1";
+  $stmt = $conn->prepare($query);
+  $stmt->execute();
+  $songs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    return $songs;
+  return $songs;
 }
 
 function getSongsWithJoinData() {
-    global $conn;
-    $query = "SELECT * FROM songs AS s
+  global $conn;
+  $query = "SELECT * FROM songs AS s
               JOIN artists AS ar ON s.song_artist_id = ar.artist_id
               JOIN genres AS g ON s.song_genre_id = g.genre_id
               JOIN albums AS al ON s.song_album_id = al.album_id
               WHERE s.song_album_id IS NOT NULL";
-    $stmt = $conn->prepare($query);
-    $stmt->execute();
-    $songs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  $stmt = $conn->prepare($query);
+  $stmt->execute();
+  $songs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    $query = "SELECT * FROM songs AS s
+  $query = "SELECT * FROM songs AS s
             JOIN artists AS ar ON s.song_artist_id = ar.artist_id
             JOIN genres AS g ON s.song_genre_id = g.genre_id
             WHERE s.song_album_id IS NULL";
-    $stmt = $conn->prepare($query);
-    $stmt->execute();
-    $singles = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  $stmt = $conn->prepare($query);
+  $stmt->execute();
+  $singles = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    $songs = array_merge($singles,$songs);
+  $songs = array_merge($singles,$songs);
 
-    return $songs;
+  return $songs;
 }
 
 function getSongsAsSingles($artist_id = FALSE) {
@@ -131,13 +129,13 @@ function getSongsAsSingles($artist_id = FALSE) {
             JOIN genres AS g ON s.song_genre_id = g.genre_id
             WHERE s.song_album_id IS NULL";
   if ($artist_id) {
-      $query .= " AND s.song_artist_id = :artist_id";
+    $query .= " AND s.song_artist_id = :artist_id";
   }
   $stmt = $conn->prepare($query);
   if ($artist_id) {
-      $stmt->execute([
-          ':artist_id' => $artist_id
-      ]);
+    $stmt->execute([
+      ':artist_id' => $artist_id
+    ]);
   } else {
     $stmt->execute();
   }
@@ -147,69 +145,56 @@ function getSongsAsSingles($artist_id = FALSE) {
 }
 
 function getSong($song_id) {
-    global $conn;
-    $query = "SELECT * FROM songs AS s
+  global $conn;
+  $query = "SELECT * FROM songs AS s
               JOIN artists AS ar ON s.song_artist_id = ar.artist_id
               JOIN genres AS g ON s.song_genre_id = g.genre_id
               JOIN albums AS al ON s.song_album_id = al.album_id
               WHERE s.song_id = :song_id";
-    $stmt = $conn->prepare($query);
-    $stmt->execute([
-        ':song_id' => $song_id
-    ]);
-    $song = $stmt->fetch(PDO::FETCH_ASSOC);
+  $stmt = $conn->prepare($query);
+  $stmt->execute([
+    ':song_id' => $song_id
+  ]);
+  $song = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    return $song;
+  return $song;
 }
 
 function getSongsInAlbum($album_id) {
-    global $conn;
-    $query = "SELECT * FROM songs AS s
+  global $conn;
+  $query = "SELECT * FROM songs AS s
               JOIN albums AS al ON s.song_album_id = al.album_id
               WHERE al.album_id = :album_id";
-    $stmt = $conn->prepare($query);
-    $stmt->execute([
-        ':album_id' => $album_id
-    ]);
-    $songs = $stmt->fetch(PDO::FETCH_ASSOC);
+  $stmt = $conn->prepare($query);
+  $stmt->execute([
+    ':album_id' => $album_id
+  ]);
+  $songs = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    return $songs;
+  return $songs;
 }
 
 function getPlaylists() {
-    global $conn;
-    $query = "SELECT * FROM playlists WHERE 1=1";
-    $stmt = $conn->prepare($query);
-    $stmt->execute();
-    $playlists = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  global $conn;
+  $query = "SELECT * FROM playlists WHERE 1=1";
+  $stmt = $conn->prepare($query);
+  $stmt->execute();
+  $playlists = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    return $playlists;
+  return $playlists;
 }
 
 function getPlaylistById($playlist_id) {
-    global $conn;
-    $query = "SELECT * FROM playlists as ps
-              JOIN playlist_assignment AS pa ON ps.playlist_id = pa.playlist_id
+  global $conn;
+  $query = "SELECT * FROM playlists as ps
               WHERE ps.playlist_id = :playlist_id";
-    $stmt = $conn->prepare($query);
-    $stmt->execute([
-        ':playlist_id' => $playlist_id
-    ]);
-    $playlist = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  $stmt = $conn->prepare($query);
+  $stmt->execute([
+    ':playlist_id' => $playlist_id
+  ]);
+  $playlist = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    return $playlist;
-}
-// Build up an array for all the songs, with key value pairs for 'title', 'genre', 'album' and 'artist'
-
-function generateRandomString() {
-  $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  $charactersLength = strlen($characters);
-  $randomString = '';
-  $length = mt_rand(5,20);
-  for ($i = 0; $i < $length; $i++) {
-    $randomString .= $characters[rand(0, $charactersLength - 1)];
-  }
-  return $randomString;
+  return $playlist;
 }
 
 /**
@@ -254,4 +239,3 @@ function outputNotifications($pageType) {
     }
   }
 }
-

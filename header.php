@@ -1,5 +1,5 @@
 <?php
-include_once('config/data.php');
+require ('config/config.php');
 ?>
 <html>
 <head>

@@ -5,7 +5,7 @@ session_start();
 
 // GET the album_id from the array
 $playlist_id = $_GET['playlist'];
-include_once('config/data.php');
+require_once 'resources/lib/functions.php';
 $playlist = getPlaylistById($playlist_id);
 
 $_SESSION['page_title'] = $playlist['playlist_name'];
