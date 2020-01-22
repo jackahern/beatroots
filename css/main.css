@@ -194,3 +194,7 @@ padding-right: 8px;
     border-radius: 6px;
     width: max-content;
 }
+
+.modal-title, .modal-body {
+    color: black;
+}

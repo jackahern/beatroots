@@ -1,5 +1,5 @@
 <?php
-session_start();
+require('config/config.php');
 $_SESSION['page_title'] = 'Saved Playlists';
 $_SESSION['page_description'] = 'Showing all the playlists already saved in the system';
 include_once('header.php');

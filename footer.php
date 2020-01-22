@@ -12,6 +12,8 @@
     crossorigin="anonymous"></script>
   <!-- idle screensaver jquery -->
   <script src="js/idle.js"></script>
+  <!-- idle screensaver jquery -->
+  <script src="js/playlist.js"></script>
 </footer>
 </html>
 

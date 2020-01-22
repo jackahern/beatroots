@@ -54,7 +54,7 @@ include_once('header.php');
                       <div class="card card-in-artists">
                           <img class="card-img-top" src="images/artists/<?=$single['artist_id']?>.png" alt="artist avatar">
                           <div class="card-body">
-                              <h4 class="card-title"><?=$single['song_title']?></h4>
+                              <h4 class="card-title"><?=$single['song_title']?>  <i class="fa fa-plus-circle" title="Add to playlist"></i></h4>
                               <p class="card-text"><?=$single['artist_name']?></p>
                               <audio controls class="w-100">
                                   <source src="songs/<?=$single['song_id']?>.mp3" type="audio/mpeg">

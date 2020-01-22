@@ -20,7 +20,7 @@ include_once('header.php');
         <div class="card">
           <img class="card-img-top" src="images/<?=!is_null($song['album_id']) ? 'albums/' . $song['album_id'] : 'artists/' . $song['artist_id']?>.png" alt="Card image">
           <div class="card-body">
-            <h4 class="card-title"><?=$song['song_title']?></h4>
+            <h4 class="card-title"><?=$song['song_title']?>  <i id="addPlaylistIcon" class="fa fa-plus-circle" title="Add to playlist" data-toggle="modal" data-target="#addPlaylistModal" onclick="setCookie('clicklink', '<?=$song['song_id']?>')"></i></h4>
             <p class="card-text"><?=$song['artist_name']?></p>
             <audio controls class="w-100">
                 <!-- Use filemtime($songUrl) to stop the audio file caching, when it is edited it should update without hard refresh -->
@@ -30,6 +30,7 @@ include_once('header.php');
         </div>
         <?php
       }
+      require_once('modal.php');
       ?>
     </div>
   </main>

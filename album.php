@@ -19,7 +19,7 @@ $songs[] = getSongsInAlbum($album_id);
       if ($songs[0]) {
         foreach ($songs as $song) {
           ?>
-            <li><?= $song['song_title']; ?></li>
+            <li><?= $song['song_title']; ?>  <i id="addPlaylistIcon" class="fa fa-plus-circle" title="Add to playlist" data-toggle="modal" data-target="#addPlaylistModal"></i></li>
             <audio controls>
                 <source src="songs/<?= $song['song_id']; ?>.mp3" type="audio/mpeg">
             </audio>
@@ -35,6 +35,8 @@ $songs[] = getSongsInAlbum($album_id);
           </div>
         <?php
       }
+      // Bring in block for use of modal on this page, as the model is used
+      modalCapabilities();
       ?>
     </main>
 
