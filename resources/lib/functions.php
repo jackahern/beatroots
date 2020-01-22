@@ -11,6 +11,19 @@ function getGenres() {
 
 }
 
+function getGenreById($genre_id) {
+  global $conn;
+  $query = "SELECT * FROM genres WHERE genre_id = :genre_id";
+  $stmt = $conn->prepare($query);
+  $stmt->execute([
+      ':genre_id' => $genre_id
+  ]);
+  $genre = $stmt->fetch(PDO::FETCH_ASSOC);
+
+  return $genre;
+
+}
+
 function getAlbumByGenre($genre_id) {
   global $conn;
   $query = "SELECT * FROM albums AS al JOIN artists AS ar ON al.album_artist_id = ar.artist_id WHERE album_genre_id = :genre_id";

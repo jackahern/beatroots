@@ -57,7 +57,7 @@ if ($action == 'create-artist' || $action == 'edit-artist') {
           $conn->commit();
           chmod($destination, 0755);
           siteAddNotification("success", "artists", "Artist called " . $artist_name . " added");
-          header("Location:" . $redirect_url);
+          header("Location:" . $current_file);
           exit();
         } else {
           $conn->rollback();
@@ -87,7 +87,7 @@ if ($action == 'create-artist' || $action == 'edit-artist') {
       }
       siteAddNotification("success", "artists", "The artist has been updated");
     }
-    header("Location:" . $redirect_url);
+    header("Location:" . $current_file);
     exit();
   }
 }
