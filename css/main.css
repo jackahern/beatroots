@@ -198,3 +198,7 @@ padding-right: 8px;
 .modal-title, .modal-body {
     color: black;
 }
+
+.search-form {
+    width: 35%;
+}
