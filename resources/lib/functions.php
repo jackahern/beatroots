@@ -235,6 +235,31 @@ function getSongTitle($song_id) {
     return $song;
 }
 
+function searchDatabase($criteria, $keywords) {
+    global $conn;
+    if ($criteria == 'song') {
+        $sql = "SELECT * FROM songs WHERE song_title LIKE :search_keywords";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([
+          ':search_keywords' => $keywords
+        ]);
+        // matching songs
+        $output = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $output;
+    }
+    else {
+    // search criteria must equal 'album'
+      $sql = "SELECT * FROM albums WHERE album_title LIKE :search_keywords";
+      $stmt = $conn->prepare($sql);
+      $stmt->execute([
+        ':search_keywords' => '%' . $keywords . '%'
+      ]);
+      // matching albums
+      $output = $stmt->fetchAll(PDO::FETCH_ASSOC);
+      return $output;
+    }
+}
+
 /**
  * This function will be used to add notifications to the session where they will be stored for the user
  *

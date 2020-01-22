@@ -1,7 +1,6 @@
 <?php
 require('config/config.php');
 $current_file = 'search.php';
-require_once('resources/pages/search_results.php');
 
 $has_searched = isset($_GET['searched']) ? true : false;
 if ($has_searched) {
@@ -36,11 +35,23 @@ require_once('header.php');
               </div>
               <div class="col">
                 <label>Keyword(s)</label>
-                <input type="text" class="form-control" name="search_keywords" placeholder="Someone like you"  value="<?=$has_searched ? $has_searched['search_keywords'] : ''?>">
+                <input type="text" class="form-control" name="search_keywords" placeholder="Someone like you"  value="<?=$has_searched ? $has_searched['search_keywords'] : ''?>" required>
               </div>
             </div>
             <button type="submit" class="btn btn-primary float-right">Search</button>
           </form>
+
+        <section class="search-results">
+          <?php
+            if ($has_searched) {
+              $matches = searchDatabase($_POST['search_criteria'], $_POST['keywords']);
+              foreach ($matches as $match) {
+                var_dump($match);
+              }
+            }
+          ?>
+
+        </section>
       </main>
 
 <?php
