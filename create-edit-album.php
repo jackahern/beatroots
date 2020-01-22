@@ -1,6 +1,7 @@
 <?php
 require_once('config/config.php');
 $current_file = 'create-edit-album.php';
+$success_page = 'manage-albums.php';
 require_once('resources/pages/create-edit-album/form_handler.php');
 
 

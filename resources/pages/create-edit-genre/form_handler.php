@@ -34,6 +34,7 @@ else if ($action == 'edit-genre') {
           WHERE genre_id = :genre_id";
   $stmt = $conn->prepare($sql);
   $execute = $stmt->execute([
+    ':genre_name' => $genre_name,
     ':genre_id' => $genre_id
   ]);
   if ($execute) {
@@ -47,13 +48,13 @@ else if ($action == 'edit-genre') {
   }
 }
 else if ($action == 'delete-genre' && isset($_POST['genre_id'])) {
-  $sql = "DELETE FROM genre WHERE genre_id = :genre_id";
+  $sql = "DELETE FROM genres WHERE genre_id = :genre_id";
   $stmt = $conn->prepare($sql);
   $execute = $stmt->execute([
     ':genre_id' => $genre_id
   ]);
   if ($execute) {
-    siteAddNotification("success" , "genres", $genre_name . " was deleted");
+    siteAddNotification("success" , "genres", "Genre deleted");
     header("Location:" . $current_file);
     exit();
   } else {

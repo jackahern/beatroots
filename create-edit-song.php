@@ -5,7 +5,8 @@ $currentFile = 'create-edit-song.php';
 $maxUpload = min(ini_get('post_max_size'), ini_get('upload_max_filesize'));
 $maxUpload = str_replace('M', '', $maxUpload);
 $maxUploadMsg = $maxUpload . 'MB';
-$maxUpload = $maxUpload * 2048;
+// Convert MB to bytes
+$max_upload = $max_upload * 1000000;
 $uploadOk = 1;
 $target_dir = "songs";
 include_once('header.php');
@@ -43,11 +44,11 @@ if ($action == 'create-song' || $action == 'edit-song') {
       $uploadOk = 0;
       siteAddNotification("error", "songs", "The file is not an MP3");
     }
-    // Check file size - cannot exceed 4MB
-//    if ($_FILES["artist_avatar"]["size"] > $maxUpload) {
-//      $uploadOk = 0;
-//      siteAddNotification("error", "artists", "The file is too large");
-//    }
+    // Check file size - cannot exceed the size allocated on the server
+    if ($_FILES["song"]["size"] > $maxUpload) {
+      $uploadOk = 0;
+      siteAddNotification("error", "artists", "The file is too large");
+    }
     // Allow certain file formats
     if($songFileType != "mp3") {
       $uploadOk = 0;

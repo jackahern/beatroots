@@ -4,7 +4,8 @@ $action = $_POST['action'] ?? NULL;
 $max_upload = min(ini_get('post_max_size'), ini_get('upload_max_filesize'));
 $max_upload = str_replace('M', '', $max_upload);
 $max_upload_msg = $max_upload . 'MB';
-$max_upload = $max_upload * 1024;
+// Convert MB to bytes
+$max_upload = $max_upload * 1000000;
 $upload_ok = 1;
 $album_id = $_POST['album_id'];
 $album_title = $_POST['album_title'];
@@ -89,7 +90,7 @@ if ($action == 'create-album' || $action == 'edit-album') {
           $conn->commit();
           chmod($destination, 0755);
           siteAddNotification("success", "albums", "Album titled " . $album_title . " added");
-          header("Location:" . $redirect_url);
+          header("Location:" . $success_page);
           exit();
         } else {
           $conn->rollback();
@@ -122,7 +123,7 @@ if ($action == 'create-album' || $action == 'edit-album') {
       }
       siteAddNotification("success", "albums", "The album has been updated");
     }
-    header("Location:" . $redirect_url);
+    header("Location:" . $success_page);
     exit();
   }
 }

@@ -1,10 +1,16 @@
 <?php
-session_start();
+require_once('config/config.php');
+$current_file = 'manage-albums.php';
+require_once('resources/pages/create-edit-album/form_handler.php');
 $_SESSION['page_title'] = 'Manage albums';
 $_SESSION['page_description'] = 'Here you can view the albums already in the music player and edit them, as well as add new ones and delete them';
 include_once('header.php');
 ?>
   <main>
+    <?php
+    // Conditions to check whether any error/success messages are present in the session, if there are then print them out on the screen
+    outputNotifications("albums");
+    ?>
     <section class="manage-table albums-table-width">
       <a class="btn btn-primary float-right add-new-shadow" href="create-edit-album.php">Add new album</a>
       <table class="table table-dark">
@@ -48,7 +54,7 @@ include_once('header.php');
               <td class="action-col action-col-width">
                 <!-- update functionality, created by using query string in link and then using $_GET on the create_edit_genre.php page -->
                 <a class="btn btn-link" href="create-edit-album.php?album_id=<?= $album['album_id'] ?>">Edit</a>
-                <form class="d-inline" action="create-edit-album.php" method="post">
+                <form class="d-inline" action="<?=$current_file?>" method="post">
                   <input class="btn btn-danger unset-width" type="submit" value="Delete"
                          onclick="return confirm('Are you sure you want to delete this genre (<?= $album['album_title'] ?>) ?')"/>
                   <input type="hidden" value="delete-album" name="action"/>

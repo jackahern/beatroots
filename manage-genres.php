@@ -7,6 +7,10 @@ $_SESSION['page_description'] = 'Here you can view the genres already in the mus
 include_once('header.php');
 ?>
     <main>
+      <?php
+      // Conditions to check whether any error/success messages are present in the session, if there are then print them out on the screen
+      outputNotifications("genres");
+      ?>
       <section class="manage-table genre-table-width">
         <a class="btn btn-primary float-right add-new-shadow" href="create-edit-genre.php">Add new genre</a>
         <table class="table table-dark">
