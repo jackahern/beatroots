@@ -6,6 +6,9 @@ include_once('header.php');
 $playlists = getPlaylists();
 ?>
 <main>
+  <?php
+  outputNotifications("playlists");
+  ?>
     <div>
         <a class="btn btn-primary" href="manage-playlists.php">Manage playlists</a>
     </div>

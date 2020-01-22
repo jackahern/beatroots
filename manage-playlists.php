@@ -1,10 +1,15 @@
 <?php
-session_start();
+require_once('config/config.php');
+$current_file = 'manage-playlists.php';
+require_once('resources/pages/create-edit-playlist/form_handler.php');
 $_SESSION['page_title'] = 'Manage Playlists';
 $_SESSION['page_description'] = 'Here you can view the playlists already in the music player and edit them, as well as add new ones and delete them';
 include_once('header.php');
 ?>
   <main>
+    <?php
+    outputNotifications("playlists");
+    ?>
     <section class="manage-table playlists-table-width">
       <a class="btn btn-primary float-right add-new-shadow" href="create-edit-playlist.php">Add new playlist</a>
       <table class="table table-dark">

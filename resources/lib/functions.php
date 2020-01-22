@@ -199,40 +199,40 @@ function getPlaylists() {
 
 function getPlaylistById($playlist_id) {
   global $conn;
-  $query = "SELECT * FROM playlists as ps
-            JOIN playlist_assignment AS pa ON ps.playlist_id = pa.playlist_id
-            WHERE ps.playlist_id = :playlist_id";
+  $query = "SELECT * FROM playlists
+            WHERE playlist_id = :playlist_id";
   $stmt = $conn->prepare($query);
   $stmt->execute([
     ':playlist_id' => $playlist_id
   ]);
-  $playlist = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  $playlist = $stmt->fetch(PDO::FETCH_ASSOC);
 
   return $playlist;
 }
 
-function modalCapabilities($song_id) {
-    echo '        <!-- Modal -->
-        <div class="modal fade" id="addPlaylistModal" tabindex="-1" role="dialog" aria-labelledby="addPlaylistModalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="addPlaylistModalLabel">Add this song to a playlist?</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    </div>
-                    <div class="modal-body">
-                        What playlist would you like to add this song to?
-                        <form action="add-to-playlist.php" method="post">
-                            
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
-                </div>
-            </div>
-        </div>';
+function getSongsInPlaylist($playlist_id) {
+  global $conn;
+  $query = "SELECT * FROM playlist_assignment as pa
+            JOIN playlists AS p ON p.playlist_id = pa.playlist_id
+            WHERE pa.playlist_id = :playlist_id";
+  $stmt = $conn->prepare($query);
+  $stmt->execute([
+    ':playlist_id' => $playlist_id
+  ]);
+  $songs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+  return $songs;
+}
+
+function getSongTitle($song_id) {
+    global $conn;
+    $sql = "SELECT song_title FROM songs WHERE song_id = :song_id";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([
+        ':song_id' => $song_id
+    ]);
+    $song = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $song;
 }
 
 /**

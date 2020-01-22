@@ -2,7 +2,6 @@
 require('config/config.php');
 $playlists = getPlaylists();
 ?>
-
 <!-- Modal -->
 <div class="modal fade" id="addPlaylistModal" tabindex="-1" role="dialog" aria-labelledby="addPlaylistModalLabel">
   <div class="modal-dialog" role="document">
@@ -27,9 +26,8 @@ $playlists = getPlaylists();
         </form>
       </div>
       <div class="modal-footer">
-        <button onclick="showCookie()">Show cookie.</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary" form="add-song-to-playlist">Save changes</button>
+        <button type="submit" class="btn btn-primary" form="add-song-to-playlist">Add</button>
       </div>
     </div>
   </div>
@@ -38,7 +36,7 @@ $playlists = getPlaylists();
 <script>
     var cookie = showCookie();
     document.getElementById("song_id").value = cookie;
-    console.log('im here');
+    console.log(cookie);
 </script>
 
 

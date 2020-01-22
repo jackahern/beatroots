@@ -31,7 +31,6 @@ function getCookie(cname) {
 }
 
 function showCookie(){
-    document.write(document.cookie);
     var cookie = getCookie('clicklink');
     return cookie;
 }
