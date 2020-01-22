@@ -1,10 +1,15 @@
 <?php
-session_start();
+require_once('config/config.php');
+$current_file = 'manage-artists.php';
+require_once('resources/pages/create-edit-artist/form_handler.php');
 $_SESSION['page_title'] = 'Manage artists';
 $_SESSION['page_description'] = 'Here you can view the artists already in the music player and edit them, as well as add new ones and delete them';
 include_once('header.php');
 ?>
   <main>
+    <?php
+    outputNotifications("artists");
+    ?>
     <section class="manage-table artists-table-width">
       <a class="btn btn-primary float-right add-new-shadow" href="create-edit-artists.php">Add new artist</a>
       <table class="table table-dark">
@@ -44,7 +49,7 @@ include_once('header.php');
               <td class="action-col action-col-width">
                 <!-- update functionality, created by using query string in link and then using $_GET on the create_edit_genre.php page -->
                 <a class="btn btn-link" href="create-edit-artists.php?artist_id=<?= $artist['artist_id'] ?>">Edit</a>
-                <form class="d-inline" action="create-edit-artists.php" method="post">
+                <form class="d-inline" action="<?=$current_file?>" method="post">
                   <input class="btn btn-danger unset-width" type="submit" value="Delete"
                          onclick="return confirm('Are you sure you want to delete this artist (<?= $artist['artist_name'] ?>) ?')"/>
                   <input type="hidden" value="delete-artist" name="action"/>

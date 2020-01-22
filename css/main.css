@@ -185,3 +185,12 @@ padding-right: 8px;
 .idle-subtext {
     font-size: 26px;
 }
+
+.text-warning-alert {
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+    padding: 10px;
+    border-radius: 6px;
+    width: max-content;
+}

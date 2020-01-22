@@ -48,7 +48,7 @@ if ($action == 'create-artist' || $action == 'edit-artist') {
       $sql = "INSERT INTO artists (artist_name) VALUES (:artist_name)";
       $stmt = $conn->prepare($sql);
       $execute = $stmt->execute([
-        ':artist_name' => $_POST['artist_name']
+        ':artist_name' => $artist_name
       ]);
       $id = $conn->lastInsertId();
       if ($execute) {
@@ -57,7 +57,7 @@ if ($action == 'create-artist' || $action == 'edit-artist') {
           $conn->commit();
           chmod($destination, 0755);
           siteAddNotification("success", "artists", "Artist called " . $artist_name . " added");
-          header("Location:" . $current_file);
+          header("Location:" . $success_page);
           exit();
         } else {
           $conn->rollback();
@@ -87,7 +87,7 @@ if ($action == 'create-artist' || $action == 'edit-artist') {
       }
       siteAddNotification("success", "artists", "The artist has been updated");
     }
-    header("Location:" . $current_file);
+    header("Location:" . $success_page);
     exit();
   }
 }

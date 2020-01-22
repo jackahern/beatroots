@@ -162,7 +162,7 @@ function getSong($song_id) {
   $query = "SELECT * FROM songs AS s
               JOIN artists AS ar ON s.song_artist_id = ar.artist_id
               JOIN genres AS g ON s.song_genre_id = g.genre_id
-              JOIN albums AS al ON s.song_album_id = al.album_id
+              LEFT JOIN albums AS al ON s.song_album_id = al.album_id
               WHERE s.song_id = :song_id";
   $stmt = $conn->prepare($query);
   $stmt->execute([
@@ -200,7 +200,7 @@ function getPlaylists() {
 function getPlaylistById($playlist_id) {
   global $conn;
   $query = "SELECT * FROM playlists as ps
-              WHERE ps.playlist_id = :playlist_id";
+            WHERE ps.playlist_id = :playlist_id";
   $stmt = $conn->prepare($query);
   $stmt->execute([
     ':playlist_id' => $playlist_id

@@ -15,6 +15,7 @@ include_once('header.php');
       $songs = getSongsWithJoinData();
       shuffle($songs);
       foreach ($songs as $key => $song) {
+        $song_url = 'songs/' . $song['song_id']. '.mp3';
         ?>
         <div class="card">
           <img class="card-img-top" src="images/<?=!is_null($song['album_id']) ? 'albums/' . $song['album_id'] : 'artists/' . $song['artist_id']?>.png" alt="Card image">
@@ -22,7 +23,8 @@ include_once('header.php');
             <h4 class="card-title"><?=$song['song_title']?></h4>
             <p class="card-text"><?=$song['artist_name']?></p>
             <audio controls class="w-100">
-              <source src="songs/<?=$song['song_id']?>.mp3" type="audio/mpeg">
+                <!-- Use filemtime($songUrl) to stop the audio file caching, when it is edited it should update without hard refresh -->
+              <source src="<?=$song_url . '?nc=' . filemtime($song_url)?>" type="audio/mpeg">
             </audio>
           </div>
         </div>

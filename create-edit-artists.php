@@ -1,6 +1,7 @@
 <?php
 require_once('config/config.php');
 $current_file = 'create-edit-artists.php';
+$success_page = 'manage-artists.php';
 require_once('resources/pages/create-edit-artist/form_handler.php');
 
 // find a way to find if the genre is being edited or created, leave isedit here as false for now
