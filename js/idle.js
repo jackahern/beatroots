@@ -1,3 +1,4 @@
+// This JQuery is going to put the site into idle mode if the user does not click the mouse for 30 seconds
 $(document).ready(function() {
     var mousetimeout;
     var screensaver_active = false;

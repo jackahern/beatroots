@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * This function is used to get everything from the genres table
+ *
+ * @return array
+ */
 function getGenres() {
   global $conn;
   $query = "SELECT * FROM genres WHERE 1=1";
@@ -11,6 +16,14 @@ function getGenres() {
 
 }
 
+/**
+ * When a specific genre is needed, potentially for editing, deleting or assigning
+ * this function can be used, with the genre_id parameter to get the specific genre
+ * from the genres table
+ *
+ * @param $genre_id
+ * @return mixed
+ */
 function getGenreById($genre_id) {
   global $conn;
   $query = "SELECT * FROM genres WHERE genre_id = :genre_id";
@@ -24,6 +37,13 @@ function getGenreById($genre_id) {
 
 }
 
+/**
+ * All albums sit inside a genre, when looking on the genres page for an album in that genre
+ * use this function to lists the albums that relate to the genre
+ *
+ * @param $genre_id
+ * @return array
+ */
 function getAlbumByGenre($genre_id) {
   global $conn;
   $query = "SELECT * FROM albums AS al JOIN artists AS ar ON al.album_artist_id = ar.artist_id WHERE album_genre_id = :genre_id";
@@ -36,6 +56,11 @@ function getAlbumByGenre($genre_id) {
   return $albums;
 }
 
+/**
+ * Lists everything from the artists table in the database in an array
+ *
+ * @return array
+ */
 function getArtists() {
   global $conn;
   $query = "SELECT * FROM artists WHERE 1=1";
@@ -46,6 +71,14 @@ function getArtists() {
   return $artists;
 }
 
+/**
+ * Finds a specific artist in the artists table in the database using the artist_id param
+ * that is passed in when it is called. This would be used when editing, deleting or assigning
+ * the artist
+ *
+ * @param $artist_id
+ * @return mixed
+ */
 function getArtistById($artist_id) {
   global $conn;
   $query = "SELECT * FROM artists WHERE artist_id = :artist_id";
@@ -58,6 +91,14 @@ function getArtistById($artist_id) {
   return $artist;
 }
 
+/**
+ * On the artists page, under their names, are there albums and singles, listed.
+ * Use this function to join the albums table with the artists table where the artist
+ * of the album is equal to the artist_id that is passed in as a param
+ *
+ * @param $artist_id
+ * @return array
+ */
 function getAlbumByArtist($artist_id) {
   global $conn;
   $query = "SELECT * FROM albums AS al JOIN artists AS ar ON al.album_artist_id = ar.artist_id WHERE album_artist_id = :artist_id";
@@ -70,6 +111,12 @@ function getAlbumByArtist($artist_id) {
   return $albums;
 }
 
+/**
+ * Use this function to get all album data, including the data from the artists and genres tables.
+ * Doing this allows us to use fields like 'artist_name' and 'genre_name'
+ *
+ * @return array
+ */
 function getAlbums() {
   global $conn;
   $query = "SELECT * FROM albums AS a 
@@ -83,6 +130,15 @@ function getAlbums() {
   return $albums;
 }
 
+
+/**
+ * Gets a specific album from the albums table using an ID that is passed as a param.
+ * Also joins the artists and genres table to get extra information such as the artist's
+ * name and the genre name
+ *
+ * @param $album_id
+ * @return mixed
+ */
 function getAlbum($album_id) {
   global $conn;
   $query = "SELECT * FROM albums AS a 
@@ -99,7 +155,11 @@ function getAlbum($album_id) {
 }
 
 /**
- * Get all song data with no joins to other tables
+ * This function is future-proofing as all other means of getting songs do a few joins,
+ * there may be a scenario where the developer does not need the data from the joins
+ * and therefore can use this quicker way of polling the database
+ *
+ * @return array
  */
 function getSongsQuickly() {
   global $conn;
@@ -111,6 +171,13 @@ function getSongsQuickly() {
   return $songs;
 }
 
+/**
+ * Get all songs, joining onto the artists, genres and albums table in one result
+ * and then collecting all the data for songs that are not in an album. Returned is a
+ * merge of 2 arrays, that contain all songs, some with album data and some without
+ *
+ * @return array
+ */
 function getSongsWithJoinData() {
   global $conn;
   $query = "SELECT * FROM songs AS s
@@ -135,6 +202,14 @@ function getSongsWithJoinData() {
   return $songs;
 }
 
+
+/**
+ * Retrieve all the songs from the database that are not in albums
+ * i.e. They are singles..
+ *
+ * @param bool $artist_id
+ * @return array
+ */
 function getSongsAsSingles($artist_id = FALSE) {
   global $conn;
   $query = "SELECT * FROM songs AS s
@@ -157,6 +232,14 @@ function getSongsAsSingles($artist_id = FALSE) {
   return $songs;
 }
 
+/**
+ * Get specific song data, using song_id that is passed as a parameter
+ * Note: We left join on the albums table because the song may not be in an album
+ * and therefore we may have to join ON NULL, which is not possible unless using a LEFT JOIN
+ *
+ * @param $song_id
+ * @return mixed
+ */
 function getSong($song_id) {
   global $conn;
   $query = "SELECT * FROM songs AS s
@@ -173,6 +256,14 @@ function getSong($song_id) {
   return $song;
 }
 
+
+/**
+ * Retrieve all the songs that are in a specific album, this will
+ * be used to list all the songs for a specific album
+ *
+ * @param $album_id
+ * @return mixed
+ */
 function getSongsInAlbum($album_id) {
   global $conn;
   $query = "SELECT * FROM songs AS s
@@ -187,6 +278,13 @@ function getSongsInAlbum($album_id) {
   return $songs;
 }
 
+
+/**
+ * Get all the playlists so they can be listed in multiple places,
+ * one place being the modal that allows you to put songs into a playlist
+ *
+ * @return array
+ */
 function getPlaylists() {
   global $conn;
   $query = "SELECT * FROM playlists WHERE 1=1";
@@ -197,6 +295,13 @@ function getPlaylists() {
   return $playlists;
 }
 
+
+/**
+ * Get playlist data using playlist_id
+ *
+ * @param $playlist_id
+ * @return mixed
+ */
 function getPlaylistById($playlist_id) {
   global $conn;
   $query = "SELECT * FROM playlists
@@ -210,6 +315,14 @@ function getPlaylistById($playlist_id) {
   return $playlist;
 }
 
+/**
+ * Use functions to get songs that are in a playlist using the playlist_id
+ * For this we must access the playlist_assignment table to find song_ids
+ * linked to that specific playlist_id
+ *
+ * @param $playlist_id
+ * @return array
+ */
 function getSongsInPlaylist($playlist_id) {
   global $conn;
   $query = "SELECT * FROM playlist_assignment as pa
@@ -224,6 +337,14 @@ function getSongsInPlaylist($playlist_id) {
   return $songs;
 }
 
+/**
+ * Use this function to specifically return the song_title from the
+ * database for scenarios where we only want this tiny piece of data to be
+ * retrieved in a loop
+ *
+ * @param $song_id
+ * @return mixed
+ */
 function getSongTitle($song_id) {
     global $conn;
     $sql = "SELECT song_title FROM songs WHERE song_id = :song_id";
@@ -235,6 +356,15 @@ function getSongTitle($song_id) {
     return $song;
 }
 
+
+/**
+ * Take post data from a form and use it to make LIKE queries to the database
+ * in order to find entities that are similar to the keywords
+ *
+ * @param $criteria
+ * @param $keywords
+ * @return array
+ */
 function searchDatabase($criteria, $keywords) {
     global $conn;
     if ($criteria == 'song') {
@@ -261,25 +391,27 @@ function searchDatabase($criteria, $keywords) {
 }
 
 /**
- * This function will be used to add notifications to the session where they will be stored for the user
+ * A function that allows you to keep adding notifications for the front-end
+ * Particularly useful for when validation is involved, with the use of 3 params
+ * you specify, type of notification (success,warning,info or error), the area
+ * of the system where the notification is relevant and will therefore be printed
+ * and finally the message that will be inside the notification
  *
- * First the type is passed into the function, this can consist of error, success, warning etc
- * Then the msgKey is passed, this will be either card or users
- * Finally the message is passed in, this is the message that will display to the user
- * As $_SESSION is global, no return is needed
+ * @param $type
+ * @param $msgKey
+ * @param $msg
  */
 function siteAddNotification($type, $msgKey, $msg) {
   $_SESSION[$msgKey][$type][] = $msg;
 }
+
 /**
- * This function will be used to integrate a notification into the html of a page
+ * Using siteAddNotificiation(), we can now output the notification that has been
+ * stored against the session. Using the type, we change the class of the notification
+ * to be relevant in colour to the message that will be displayed. Once this is put
+ * out on the screen the session is then unset to stop it appearing again and duplicating
  *
- * The $pageType is passed in and will reflect either card or user, this will specify what key is needed in the session
- * Using the $pageType as the key will provide notifications that differ between the pages, so that you never have notifcations
- * relating to a user when you are creating cards and vice versa
- *
- * Inside the functions an array is declared that holds values for keys
- * These values are what is used to style the notification
+ * @param $pageType
  */
 function outputNotifications($pageType) {
   $availableNotifications = [

@@ -10,7 +10,7 @@ $target_dir = "songs";
 $song_id = $_POST['song_id'];
 $song_title = $_POST['song_title'];
 $song_artist_id_with_name = $_POST['song_artist_id'];
-$song_album_id_with_title = $_POST['song_artist_id'];
+$song_album_id_with_title = $_POST['song_album_id'];
 $song_genre_id = $_POST['song_genre_id'];
 
 

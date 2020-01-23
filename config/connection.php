@@ -1,5 +1,6 @@
 <?php
 // Use this file to make a connection with the database, use PDO
+// Using PDO allows us to make safe and sanitised interactions with the database, making the app more secure
 $host = '127.0.0.1';
 $dbname = 'jack_music_player';
 $user = 'root';

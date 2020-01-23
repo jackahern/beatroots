@@ -1,4 +1,5 @@
-//* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+//* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content -
+// This allows the user to have multiple dropdowns without any conflict */
 var dropdown = document.getElementsByClassName("dropdown-btn");
 var i;
 
@@ -15,10 +16,13 @@ for (i = 0; i < dropdown.length; i++) {
     });
 }
 
+// We want to set a cookie for the playlist selection so we know the ID of the song
+// The user wants to add to the selected playlist
 function setCookie(cname, cvalue) {
     document.cookie = cname + "=" + cvalue;
 }
 
+// Use getCookie and showCookie together to get just the ID of the song from the cookie
 function getCookie(cname) {
     var name = cname + "=";
     var ca = document.cookie.split(';');
@@ -30,6 +34,8 @@ function getCookie(cname) {
     return "";
 }
 
+// Use showCookie to get the of the song that was selected when the cookie was set
+// The ID will be the value of 'clicklink'
 function showCookie(){
     var cookie = getCookie('clicklink');
     return cookie;
@@ -37,6 +43,7 @@ function showCookie(){
 
 
 // Use this JQuery to put the name of the file you just uploaded into the file upload field
+// Meaning the file upload label will change from 'Choose File...' to 'filename'
 $('#customFile').on('change',function(){
     // Get the file name
     var fileName = $(this).val();
