@@ -87,5 +87,5 @@ require ('config/config.php');
   <a href="songs.php">Songs</a>
   <a href="playlists.php">Playlists</a>
   <a href="search.php">Search</a>
-  <a href="#contact">Contact</a>
+  <a href="contact.php">Contact</a>
 </nav>

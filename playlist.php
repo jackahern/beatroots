@@ -1,23 +1,32 @@
 <?php
-// This file is different, this is going to be the view of each album, this is ultimately where the user can listen to music
-// Each album that is clicked to get here is storing a query in the URL, fetch this to know which album to load and then which songs
 require('config/config.php');
-// GET the album_id from the array
+// GET the playlist ID from the URL
 $playlist_id = $_GET['playlist'];
 require_once 'resources/lib/functions.php';
+// Use the ID from the URL to load the specifc playlist that has been clicked on
 $playlist = getPlaylistById($playlist_id);
+
+$is_shuffled = isset($_GET['shuffle']) ? true : false;
 $_SESSION['page_title'] = $playlist['playlist_name'];
 $_SESSION['page_description'] = 'Playlist';
 
 $songs = getSongsInPlaylist($playlist_id);
+if ($is_shuffled) {
+    // Shuffle the songs so they are in a different order each time the button is pressed
+    shuffle($songs);
+}
 include_once('header.php');
 ?>
       <main>
-        <?php
+          <!-- Add query parameter for shuffle to pick up in the php and use the 'shuffle' function to change the order of songs in the playlist -->
+          <a class="btn btn-primary" href="playlist.php?playlist=<?=$playlist_id?>&shuffle=yes">Shuffle songs</a>
+          <?php
+            // Output any error/success/warning/info messages on this page that are related to playlists
             outputNotifications("playlists");
-          // If the value at the first index is not false, carry on
+          // If songs is not empty, loop through and display audio tags foreach of them
           if (!empty($songs)) {
             foreach ($songs as $song) {
+                // The song title is not retrieved when getting songs in a playlist, use a separate function so we can print the title with the song
                 $title = getSongTitle($song['song_id']);
               ?>
                 <li><?= $title['song_title']; ?></li>
@@ -27,6 +36,7 @@ include_once('header.php');
               <?php
             }
           } else {
+              // else this playlist has no songs, display useful messages explaining why the user is not seeing anything and how to change that
               ?>
               <div class="alert alert-warning" role="alert">
                   This playlist currently has no songs attached to it

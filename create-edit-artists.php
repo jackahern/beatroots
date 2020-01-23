@@ -28,7 +28,7 @@ require_once('header.php');
     // Conditions to check whether any error/success messages are present in the session, if there are then print them out on the screen
     outputNotifications("artists");
     ?>
-    <section class="create-edit-artist">
+    <section class="w-25">
       <form action="<?=$current_file?>" method="post" enctype="multipart/form-data">
         <label for="artistName">Artist name</label>
         <input type="text" name="artist_name" class="form-control" aria-describedby="artistNameHelp" placeholder="Enter artist name..." value="<?=$artist['artist_name'] ?? $_GET['name'] ?? '' ?>">

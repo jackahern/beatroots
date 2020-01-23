@@ -10,6 +10,8 @@ include_once('header.php');
     and subsequently the artist. Probably going to have to setup a function where the genre clicked is passed
     as a parameter to a db call, tables are joined and the ID is found, then retrieve all albums with that genre_id -->
     <a class="btn btn-primary" href="manage-songs.php">Manage songs</a>
+    <!-- To shuffle the songs, we just need to reload the page as the array that outputs the songs is shuffled anyway -->
+    <a class="btn btn-primary" href="songs.php">Shuffle songs</a>
     <div id="song-list">
       <?php
       $songs = getSongsWithJoinData();

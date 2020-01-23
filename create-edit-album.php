@@ -32,7 +32,7 @@ $genres = getGenres();
     // Conditions to check whether any error/success messages are present in the session, if there are then print them out on the screen
     outputNotifications("albums");
     ?>
-    <section class="create-edit-album">
+    <section class="w-50">
       <form action="<?=$current_file?>" method="post" enctype="multipart/form-data">
         <label for="albumTitle">Album title:</label>
         <input type="text" name="album_title" class="form-control" aria-describedby="albumTitleHelp" placeholder="Enter album title..." value="<?=$isEdit ? $album['album_title'] : ''?>">

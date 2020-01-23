@@ -34,3 +34,14 @@ function showCookie(){
     var cookie = getCookie('clicklink');
     return cookie;
 }
+
+
+// Use this JQuery to put the name of the file you just uploaded into the file upload field
+$('#customFile').on('change',function(){
+    // Get the file name
+    var fileName = $(this).val();
+    // Clean the filename to get rid of the 'fakepath' text that is auto-generated
+    var cleanFileName = fileName.replace('C:\\fakepath\\', " ");
+    // Replace the "Choose a file" label
+    $(this).next('.custom-file-label').html(cleanFileName);
+})

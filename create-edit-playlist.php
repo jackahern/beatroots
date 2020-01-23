@@ -25,7 +25,7 @@ include_once('header.php');
       <?php
       outputNotifications("playlists");
       ?>
-      <section class="create-edit-playlist">
+      <section class="w-25">
         <form action="<?=$current_file?>" method="post" enctype="multipart/form-data">
           <label for="playlistName">Playlist name</label>
           <input type="text" name="playlist_name" class="form-control" aria-describedby="playlistNameHelp" placeholder="Enter playlist name..." value="<?=$isEdit ? $playlist['playlist_name'] : ''?>">

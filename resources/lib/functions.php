@@ -291,7 +291,7 @@ function outputNotifications($pageType) {
     foreach ($availableNotifications as $notification => $class) {
       if (!empty($_SESSION[$pageType][$notification])) {
         ?>
-        <div class="alert <?=$class?>">
+        <div class="w-50 alert <?=$class?>">
           <?= implode("<br>", $_SESSION[$pageType][$notification]) ?>
           <?php
           unset($_SESSION[$pageType][$notification]);
