@@ -31,7 +31,7 @@ require_once('header.php');
     <section class="w-25">
       <form action="<?=$current_file?>" method="post" enctype="multipart/form-data">
         <label for="artistName">Artist name</label>
-        <input type="text" name="artist_name" class="form-control" aria-describedby="artistNameHelp" placeholder="Enter artist name..." value="<?=$artist['artist_name'] ?? $_GET['name'] ?? '' ?>">
+        <input type="text" name="artist_name" class="form-control" aria-describedby="artistNameHelp" placeholder="Enter artist name..." value="<?=$artist['artist_name'] ?? $_GET['name'] ?? '' ?>" required>
         <label for="artistAvatar"><?=$isEdit ? 'Replace avatar' : 'Artist avatar' ?></label>
         <div class="custom-file">
           <input type="file" class="custom-file-input" id="customFile" name="artist_avatar">

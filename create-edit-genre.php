@@ -29,7 +29,7 @@ include_once('header.php');
     <section class="create-edit-genre">
       <form action="<?=$current_file?>" method="post" enctype="multipart/form-data">
         <label for="genreName">Genre name</label>
-        <input type="text" name="genre_name" class="form-control" aria-describedby="genreNameHelp" placeholder="Enter genre name..." value="<?=$isEdit ? $genre['genre_name'] : ''?>">
+        <input type="text" name="genre_name" class="form-control" aria-describedby="genreNameHelp" placeholder="Enter genre name..." value="<?=$isEdit ? $genre['genre_name'] : ''?>" required>
         <div class="form-group">
         <?php
         if ($isEdit) {

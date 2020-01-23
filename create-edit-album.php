@@ -35,9 +35,9 @@ $genres = getGenres();
     <section class="w-50">
       <form action="<?=$current_file?>" method="post" enctype="multipart/form-data">
         <label for="albumTitle">Album title:</label>
-        <input type="text" name="album_title" class="form-control" aria-describedby="albumTitleHelp" placeholder="Enter album title..." value="<?=$isEdit ? $album['album_title'] : ''?>">
+        <input type="text" name="album_title" class="form-control" aria-describedby="albumTitleHelp" placeholder="Enter album title..." value="<?=$isEdit ? $album['album_title'] : ''?>" required>
         <label>By artist:</label>
-        <input list="artists" name="album_artist_id" placeholder="Search for artist..." class="form-control" value="<?=$isEdit ? $album['artist_id'] . ' - ' . $album['artist_name'] : ''?>">
+        <input list="artists" name="album_artist_id" placeholder="Search for artist..." class="form-control" value="<?=$isEdit ? $album['artist_id'] . ' - ' . $album['artist_name'] : ''?>" required>
         <datalist id="artists">
           <?php
           foreach ($artists as $artist) {
@@ -49,7 +49,7 @@ $genres = getGenres();
         </datalist>
         </input>
         <label>Genre:</label>
-        <select id="select-genre" name="album_genre_id" class="custom-select my-1 mr-sm-2">
+        <select id="select-genre" name="album_genre_id" class="custom-select my-1 mr-sm-2" required>
           <?php
           if ($isEdit) {
               ?>

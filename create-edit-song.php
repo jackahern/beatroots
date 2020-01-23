@@ -34,9 +34,9 @@ $genres = getGenres();
     <section class="create-edit-song">
       <form action="create-edit-song.php" method="post" enctype="multipart/form-data">
         <label for="songTitle">Song title:</label>
-        <input type="text" name="song_title" class="form-control" aria-describedby="songTitleHelp" placeholder="Enter song title..." value="<?=$isEdit ? $song['song_title'] : ''?>">
+        <input type="text" name="song_title" class="form-control" aria-describedby="songTitleHelp" placeholder="Enter song title..." value="<?=$isEdit ? $song['song_title'] : ''?>" required>
         <label>By artist:</label>
-        <input list="artists" name="song_artist_id" placeholder="Search for artist..." class="form-control" value="<?=$isEdit ? $song['artist_id'] . ' - ' . $song['artist_name'] : ''?>">
+        <input list="artists" name="song_artist_id" placeholder="Search for artist..." class="form-control" value="<?=$isEdit ? $song['artist_id'] . ' - ' . $song['artist_name'] : ''?>" required>
         <datalist id="artists">
           <?php
           foreach ($artists as $artist) {
@@ -60,7 +60,7 @@ $genres = getGenres();
         </datalist>
         </input>
         <label>Genre:</label>
-        <select id="select-genre" name="song_genre_id" class="custom-select my-1 mr-sm-2">
+        <select id="select-genre" name="song_genre_id" class="custom-select my-1 mr-sm-2" required>
           <?php
           if ($isEdit) {
             ?>
@@ -80,7 +80,7 @@ $genres = getGenres();
         </select>
         <label for="uploadedSong"><?=$isEdit ? 'Change uploaded song' : 'Upload song'?></label>
         <div class="custom-file">
-          <input type="file" class="custom-file-input" id="customFile" name="song">
+          <input type="file" class="custom-file-input" id="customFile" name="song" required>
           <label class="custom-file-label" for="customFile">Choose file</label>
         </div>
         <?php
