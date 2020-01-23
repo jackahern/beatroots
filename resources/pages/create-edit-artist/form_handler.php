@@ -1,8 +1,10 @@
 <?php
 $action = $_POST['action'] ?? NULL;
 $upload_ok = 1;
+// Save shorter variables from POST for easier readability
 $artist_id = $_POST['artist_id'];
 $artist_name = $_POST['artist_name'];
+// Directory for images to be uploaded to
 $target_dir = "images/artists";
 
 // handle form input here
@@ -15,18 +17,19 @@ if ($action == 'create-artist' || $action == 'edit-artist') {
       $upload_ok = 0;
       siteAddNotification("error", "artists", "The file is not an image");
     }
-    // Allow certain file formats
+    // Only allow PNG at the minute
     if($image_file_type != "png") {
       $upload_ok = 0;
       siteAddNotification("error", "artists", "The file is not an accepted file type");
     }
   }
-  // If the upload has not worked and there are errors present, refresh the page and show the user the errors
+  // If the upload has not worked, do not exit the script because the image upload was not essential
+  // Instead, continue the script and add a warning to let the user know the artist avatar has not been uploaded
   if ($upload_ok == 0) {
     siteAddNotification("warning", "artists", "An artist avatar has not been saved for this artist. However, it can be added at a later date");
   }
   if ($action == 'create-artist') {
-    // Involve some validation to stop the same card being created twice
+    // Involve some validation to stop the same artist being created twice
     $sql = "SELECT artist_name FROM artists WHERE artist_name = :artist_name";
     $stmt = $conn->prepare($sql);
     // Create execute variable to be assigned the statement execute function
@@ -44,12 +47,14 @@ if ($action == 'create-artist' || $action == 'edit-artist') {
       header("Location:" . $current_file);
       exit();
     } else {
+      // Start a transaction so we can rollback and not put any data in the database if something goes wrong
       $conn->beginTransaction();
       $sql = "INSERT INTO artists (artist_name) VALUES (:artist_name)";
       $stmt = $conn->prepare($sql);
       $execute = $stmt->execute([
         ':artist_name' => $artist_name
       ]);
+      // Get the id so we have a way to name the artist avatar image that is uploaded
       $id = $conn->lastInsertId();
       if ($execute) {
         $destination = $target_dir . "/" . $id . "." . $image_file_type;
@@ -69,7 +74,7 @@ if ($action == 'create-artist' || $action == 'edit-artist') {
     }
   }
   else if ($action == 'edit-artist') {
-    // Write an update query to change the card details that has been edited
+    // Write an update query to change the artist details that has been edited
     $sql = "UPDATE artists 
     SET artist_name = :artist_name
     WHERE artist_id = :artist_id";
@@ -102,6 +107,7 @@ else if ($action == 'delete-artist' && isset($_POST['artist_id'])) {
   $stmt->execute([
     ':artist_id' => $artist_id
   ]);
+  // Get the image name so that we can also remove the artists avatar that is saved. We do not want it if they are no longer in the system
   $img = $artist_id . ".png";
   if (unlink( 'images/artists/' . $img) || !file_exists('images/artists/' . $img)) {
     $conn->commit();

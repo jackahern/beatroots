@@ -1,6 +1,7 @@
 <?php
 require('config/config.php');
 
+// Show success message if the form has been submitted
 $successful_submit = isset($_GET['submit']) ? true : false;
 if ($successful_submit == 'true') {
   siteAddNotification("success", "contact", "You have sent your contact form successfully");
@@ -43,3 +44,5 @@ require_once('header.php');
     <p>21 Quay Street, Bristol, BS1 1LQ</p>
   </section>
 </main>
+<?php
+require_once('footer.php');

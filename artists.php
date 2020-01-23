@@ -11,16 +11,13 @@ if (isset($_GET['artist'])) {
 include_once('header.php');
 ?>
   <main>
-    <!-- ****ARTISTS**** foreach genre, list it as something that will expand and show the albums.
-    foreach genre that is clicked, send a call to the database to get every album tied to that genre
-    and subsequently the artist. Probably going to have to setup a function where the genre clicked is passed
-    as a parameter to a db call, tables are joined and the ID is found, then retrieve all albums with that genre_id -->
     <a class="btn btn-primary" href="manage-artists.php">Manage artists</a>
     <div id="album-list">
       <?php
       $artists = getArtists();
       foreach ($artists as $artist) {
         ?>
+        <!-- If the artist was clicked on from the menu, open the artists page with the artist already expanded and highlighted -->
         <button class="dropdown-btn <?= isset($artist_id_url) && $artist_id_url == $artist['artist_id'] ? 'active' : '';?>"><i class="fa fa-caret-right"></i>    <?=$artist['artist_name'];?>
         </button>
         <div class="dropdown-container" <?= isset($artist_id_url) && $artist_id_url == $artist['artist_id'] ? 'style="display: block;"' : 'style="display: none;"';?>>
@@ -29,6 +26,7 @@ include_once('header.php');
               </button>
               <div class="dropdown-container" <?= isset($artist_id_url) && $artist_id_url == $artist['artist_id'] ? 'style="display: block;"' : 'style="display: none;"';?>>
                 <?php
+                // Get the albums this artist has
                 $albums = getAlbumByArtist($artist['artist_id']);
                 if (!empty($albums)) {
                     foreach ($albums as $album) {
@@ -47,6 +45,7 @@ include_once('header.php');
               </button>
               <div class="dropdown-container" <?= isset($artist_id_url) && $artist_id_url == $artist['artist_id'] ? 'style="display: block;"' : 'style="display: none;"';?>>
                 <?php
+                // Then get this singles this artist has
                 $singles = getSongsAsSingles($artist['artist_id']);
                 if (!empty($singles)) {
                   foreach ($singles as $single) {

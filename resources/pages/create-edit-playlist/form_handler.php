@@ -5,7 +5,7 @@ $playlist_name = $_POST['playlist_name'];
 
 // handle form input here
 if ($action == 'create-playlist') {
-  // Involve some validation to stop the same card being created twice
+  // Involve some validation to stop the same playlist being created twice
   $sql = "SELECT playlist_name FROM playlists WHERE playlist_name = :playlist_name";
   $stmt = $conn->prepare($sql);
   // Create execute variable to be assigned the statement execute function

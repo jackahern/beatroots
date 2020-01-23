@@ -39,6 +39,7 @@ require_once('header.php');
 
         <section class="search-results">
           <?php
+            // Only print out this section when there are search results for the page to show
             if ($has_searched) {
               ?>
               <h3>Search Results:</h3>

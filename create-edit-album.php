@@ -5,12 +5,12 @@ $success_page = 'manage-albums.php';
 require_once('resources/pages/create-edit-album/form_handler.php');
 
 
-// find a way to find if the genre is being edited or created, leave isedit here as false for now
+// find a way to find if the album is being edited or created
 $isEdit = isset($_GET['album_id']) ? true : false;
 if ($isEdit) {
-  // get artist details for this artist
+  // get artist details for this album
   $album = getAlbum($_GET['album_id']);
-  // if card doesn't exist for the supplied card_id, then kick out back to list page and show error
+  // if album doesn't exist for the supplied album_id, then kick out back to list page and show error
   if ($album == NULL) {
     //First create the redirect to use query string until i see it working and then change it to use the errors the same way it does in the form handler
     siteAddNotification("error", "albums", "The album doesn't exist");
@@ -38,6 +38,7 @@ $genres = getGenres();
         <input type="text" name="album_title" class="form-control" aria-describedby="albumTitleHelp" placeholder="Enter album title..." value="<?=$isEdit ? $album['album_title'] : ''?>" required>
         <label>By artist:</label>
         <input list="artists" name="album_artist_id" placeholder="Search for artist..." class="form-control" value="<?=$isEdit ? $album['artist_id'] . ' - ' . $album['artist_name'] : ''?>" required>
+        <!-- Use a datalist so suggestions of artists already in the system are given to the user -->
         <datalist id="artists">
           <?php
           foreach ($artists as $artist) {

@@ -1,14 +1,18 @@
 <?php
 $action = $_POST['action'] ?? NULL;
+// GET the value of the upload_mac_filesize from the server's config file because it may be higher or lower in production
 $max_upload = min(ini_get('post_max_size'), ini_get('upload_max_filesize'));
 $max_upload = str_replace('M', '', $max_upload);
 $max_upload_msg = $max_upload . 'MB';
 // Convert MB to bytes
 $max_upload = $max_upload * 1000000;
 $upload_ok = 1;
+// Directory where the songs will be saved
 $target_dir = "songs";
 $song_id = $_POST['song_id'];
 $song_title = $_POST['song_title'];
+// As the artist ID and album ID are selected through datalists, this means their ID and name
+// is passed in the post data, this should be exploded and the first index should be taken
 $song_artist_id_with_name = $_POST['song_artist_id'];
 $song_album_id_with_title = $_POST['song_album_id'];
 $song_genre_id = $_POST['song_genre_id'];
@@ -16,10 +20,12 @@ $song_genre_id = $_POST['song_genre_id'];
 
 
 if ($action == 'create-song' || $action == 'edit-song') {
+  // Get the ID of the artist without the name
   $exploded_artist_val = explode(" ", $song_artist_id_with_name);
   $song_artist_id = $exploded_artist_val[0];
 
   if (!empty($_POST['song_album_id'])) {
+    // Get the ID of the album without the name
     $exploded_album_val = explode(" ", $song_album_id_with_title);
     $song_album_id = $exploded_album_val[0];
   } else {
@@ -38,7 +44,7 @@ if ($action == 'create-song' || $action == 'edit-song') {
       $upload_ok = 0;
       siteAddNotification("error", "artists", "The file is too large");
     }
-    // Allow certain file formats
+    // Allow only mp3 at the minute
     if($song_file_type != "mp3") {
       $upload_ok = 0;
       siteAddNotification("error", "songs", "The file is not an accepted file type, MP3 is needed");
@@ -51,7 +57,7 @@ if ($action == 'create-song' || $action == 'edit-song') {
     exit;
   }
   else if ($action == 'create-song') {
-    // Involve some validation to stop the same card being created twice
+    // Involve some validation to stop the same song being created twice
     $sql = "SELECT song_title FROM songs WHERE song_title = :song_title";
     $stmt = $conn->prepare($sql);
     // Create execute variable to be assigned the statement execute function
@@ -73,6 +79,7 @@ if ($action == 'create-song' || $action == 'edit-song') {
         ':song_album_id' => $song_album_id,
         ':song_genre_id' => $song_genre_id
       ]);
+      // Use the id of the song to name the file upload so that they can always be retrieved together
       $id = $conn->lastInsertId();
       if ($execute) {
         $destination = $target_dir . "/" . $id . "." . $song_file_type;
@@ -92,7 +99,7 @@ if ($action == 'create-song' || $action == 'edit-song') {
     }
   }
   else if ($action == 'edit-song') {
-    // Write an update query to change the card details that has been edited
+    // Write an update query to change the song details that has been edited
     $sql = "UPDATE songs 
     SET song_title = :song_title,
     song_artist_id = :song_artist_id,
@@ -131,6 +138,7 @@ else if ($action == 'delete-song' && isset($_POST['song_id'])) {
   $execute = $stmt->execute([
     ':song_id' => $_POST['song_id']
   ]);
+  // Also remove the song file
   $song = $_POST['song_id'] . ".mp3";
   if (unlink( 'songs/' . $song) || !file_exists('songs/' . $song)) {
     $conn->commit();

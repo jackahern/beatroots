@@ -1,6 +1,5 @@
 <?php
 require ('config/config.php');
-session_start();
 $_SESSION['page_title'] = 'Music Player, from Rebmem Engineering';
 $_SESSION['page_description'] = 'Welcome to the homepage of Rebmem\'s new product, a music player!';
 require_once 'header.php';

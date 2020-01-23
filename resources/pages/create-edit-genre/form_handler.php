@@ -5,7 +5,7 @@ $genre_name = $_POST['genre_name'];
 
 // handle form input here
 if ($action == 'create-genre') {
-  // Involve some validation to stop the same card being created twice
+  // Involve some validation to stop the same genre being created twice
   $sql = "SELECT genre_name FROM genres WHERE genre_name = :genre_name";
   $stmt = $conn->prepare($sql);
   // Create execute variable to be assigned the statement execute function
@@ -47,6 +47,7 @@ else if ($action == 'edit-genre') {
     exit();
   }
 }
+// Delete the genre
 else if ($action == 'delete-genre' && isset($_POST['genre_id'])) {
   $sql = "DELETE FROM genres WHERE genre_id = :genre_id";
   $stmt = $conn->prepare($sql);

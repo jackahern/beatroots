@@ -34,9 +34,9 @@ $playlists = getPlaylists();
 </div>
 <script src="js/main.js"></script>
 <script>
+    // Get the cookie and insert it into the value of hidden element song_id, so we can add the right song to the playlist
     var cookie = showCookie();
     document.getElementById("song_id").value = cookie;
-    console.log(cookie);
 </script>
 
 

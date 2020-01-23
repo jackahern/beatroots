@@ -2,7 +2,7 @@
 require('config/config.php');
 $playlist_id = $_POST['playlist_id'];
 $song_id = $_POST['song_id'];
-// Involve some validation to stop the same card being created twice
+// Involve some validation to stop the same song being added to the playlist twice
 $sql = "SELECT playlist_id, song_id FROM playlist_assignment WHERE playlist_id = :playlist_id AND song_id = :song_id";
 $stmt = $conn->prepare($sql);
 // Create execute variable to be assigned the statement execute function

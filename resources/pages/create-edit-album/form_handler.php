@@ -1,12 +1,14 @@
 <?php
 // Get the posted action, to decipher what is done with the POST data
 $action = $_POST['action'] ?? NULL;
+// Get the max_upload allowed from the server, otherwise known as being in the php.ini file of the server
 $max_upload = min(ini_get('post_max_size'), ini_get('upload_max_filesize'));
 $max_upload = str_replace('M', '', $max_upload);
 $max_upload_msg = $max_upload . 'MB';
 // Convert MB to bytes
 $max_upload = $max_upload * 1000000;
 $upload_ok = 1;
+// Save all POST variables into non-post variables for better readability
 $album_id = $_POST['album_id'];
 $album_title = $_POST['album_title'];
 $album_cover = $_POST['album_cover'];
@@ -23,6 +25,7 @@ $post_data_args = [
   'genre_id' => $album_genre_id,
   'artist_id' => $album_artist_id_with_name
 ];
+// Used for uploading and moving images
 $target_dir = "images/albums";
 
 if ($action == 'create-album' || $action == 'edit-album') {
@@ -40,16 +43,18 @@ if ($action == 'create-album' || $action == 'edit-album') {
       $upload_ok = 0;
       siteAddNotification("error", "albums", "The file is too large");
     }
-    // Allow certain file formats
+    // Currently, we only want png
     if($image_file_type != "png") {
       $upload_ok = 0;
       siteAddNotification("error", "albums", "The file is not an accepted file type");
     }
   }
-// If the upload has not worked and there are errors present, refresh the page and show the user the errors
+  // If the upload has not worked, do not exit the form handler because an upload is not essential
+  // Carry on but inform the user that the image will not be saved with the album
   if ($upload_ok == 0) {
     siteAddNotification("warning", "albums", "An album cover photo has not been saved with this album. However, it can be added at a later date");
   }
+  // Perform specific 'create-album' tasks now, rather than both create and edit
   if ($action == 'create-album') {
     // Involve some validation to stop the same album being created twice
     $sql = "SELECT album_title FROM albums WHERE album_title = :album_title";
@@ -87,12 +92,14 @@ if ($action == 'create-album' || $action == 'edit-album') {
         // and move the file to the images directory
         $destination = $target_dir . "/" . $id . "." . $image_file_type;
         if (move_uploaded_file($_FILES["album_cover"]["tmp_name"], $destination)) {
+          // Everything including the image has been added successfully so commit the sql
           $conn->commit();
           chmod($destination, 0755);
           siteAddNotification("success", "albums", "Album titled " . $album_title . " added");
           header("Location:" . $success_page);
           exit();
         } else {
+          // Something did not work with the image upload/moving of the file so take back the data from the database
           $conn->rollback();
           siteAddNotification("error", "albums", "Upload of album cover unsuccessful");
           header("Location:" . $current_file . '?' . http_build_query($post_data_args));
@@ -138,6 +145,7 @@ else if ($action == 'delete-album' && isset($_POST['album_id'])) {
     ':album_id' => $album_id
   ]);
   $img = $album_id . ".png";
+  // Make sure the image is also deleted so we get rid of everything to do with this album
   if (unlink( 'images/albums/' . $img) || !file_exists('images/albums/' . $img)) {
     $conn->commit();
     siteAddNotification("success", "albums", "The album has been deleted");

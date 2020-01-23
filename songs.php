@@ -5,10 +5,6 @@ $_SESSION['page_description'] = 'Browse the songs - Find your favourite and clic
 include_once('header.php');
 ?>
   <main>
-    <!-- ****songs**** foreach genre, list it as something that will expand and show the albums.
-    foreach genre that is clicked, send a call to the database to get every album tied to that genre
-    and subsequently the artist. Probably going to have to setup a function where the genre clicked is passed
-    as a parameter to a db call, tables are joined and the ID is found, then retrieve all albums with that genre_id -->
     <a class="btn btn-primary" href="manage-songs.php">Manage songs</a>
     <!-- To shuffle the songs, we just need to reload the page as the array that outputs the songs is shuffled anyway -->
     <a class="btn btn-primary" href="songs.php">Shuffle songs</a>

@@ -4,12 +4,12 @@ $current_file = 'create-edit-song.php';
 $success_page = 'manage-songs.php';
 require_once('resources/pages/create-edit-song/form_handler.php');
 
-// find a way to find if the genre is being edited or created, leave isedit here as false for now
+// find a way to find if the song is being edited or created
 $isEdit = isset($_GET['song_id']) ? true : false;
 if ($isEdit) {
-  // get artist details for this artist
+  // get song details for this song
   $song = getSong($_GET['song_id']);
-  // if card doesn't exist for the supplied card_id, then kick out back to list page and show error
+  // if song doesn't exist for the supplied song_id, then kick out back to list page and show error
   if ($song == NULL) {
     //First create the redirect to use query string until i see it working and then change it to use the errors the same way it does in the form handler
     siteAddNotification("error", "songs", "That song doesn't exist");
