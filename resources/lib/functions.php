@@ -241,7 +241,7 @@ function searchDatabase($criteria, $keywords) {
         $sql = "SELECT * FROM songs WHERE song_title LIKE :search_keywords";
         $stmt = $conn->prepare($sql);
         $stmt->execute([
-          ':search_keywords' => $keywords
+          ':search_keywords' => '%' . $keywords . '%'
         ]);
         // matching songs
         $output = $stmt->fetchAll(PDO::FETCH_ASSOC);
